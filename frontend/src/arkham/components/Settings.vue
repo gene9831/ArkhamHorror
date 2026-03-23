@@ -2,6 +2,7 @@
 import { ref, computed, watch, watchEffect } from 'vue';
 import { type Game } from '@/arkham/types/Game'
 import { useDebug } from '@/arkham/debug'
+import { useLocalStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
@@ -15,7 +16,7 @@ const investigator = computed(() => {
   return Object.values(props.game.investigators).find(i => i.playerId === props.playerId)
 })
 
-const cardMinWidth = ref(60)
+const cardMinWidth = useLocalStorage('card-min-width', 60)
 const skipTriggers = ref(investigator.value.settings.globalSettings.ignoreUnrelatedSkillTestTriggers)
 
 watch(() => skipTriggers.value, (value) => {
@@ -29,9 +30,13 @@ watch(() => skipTriggers.value, (value) => {
   }
 })
 
-watchEffect(() => {
-  console.log('cardMinWidth', cardMinWidth.value)
-})
+watch(
+  cardMinWidth,
+  (value) => {
+    document.documentElement.style.setProperty('--card-min-width', `${value}px`)
+  },
+  { immediate: true },
+)
 
 </script>
 <template>
