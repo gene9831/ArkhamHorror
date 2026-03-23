@@ -15,7 +15,7 @@ const investigator = computed(() => {
   return Object.values(props.game.investigators).find(i => i.playerId === props.playerId)
 })
 
-const cardMinWidth = inject('cardMinWidth') as Ref<number>
+const cardSizeIncrement = inject('cardSizeIncrement') as Ref<number>
 const skipTriggers = ref(investigator.value.settings.globalSettings.ignoreUnrelatedSkillTestTriggers)
 
 watch(() => skipTriggers.value, (value) => {
@@ -37,10 +37,10 @@ watch(() => skipTriggers.value, (value) => {
       <label>{{$t('gameBar.viewSettingSkipTriggers')}}</label>
       <input type="checkbox" v-model="skipTriggers" />
     </div>
-    <div class="options box card-min-width">
-      <label >卡牌最小宽度</label>
-      <input type="range" min="60" max="120" v-model="cardMinWidth" />
-      <span class="display-value">{{ cardMinWidth }}</span>
+    <div class="options box card-size-increment">
+      <label >卡牌增大尺寸</label>
+      <input type="range" min="0" max="20" v-model="cardSizeIncrement" />
+      <span class="display-value">+{{ cardSizeIncrement }}px</span>
     </div>
     <div>
       <button @click="closeSettings">{{$t('close')}}</button>
@@ -61,16 +61,16 @@ button {
   width: 100%;
 }
 
-.card-min-width {
+.card-size-increment {
   display: flex;
   align-items: center;
 }
 
-.card-min-width input {
+.card-size-increment input {
   flex: 1
 }
 
-.card-min-width .display-value {
+.card-size-increment .display-value {
   margin-left: 10px;
 }
 </style>

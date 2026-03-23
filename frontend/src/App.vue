@@ -33,14 +33,14 @@ import NavBar from '@/components/NavBar.vue'
 import 'floating-vue/dist/style.css'
 
 const settingsStore = useSiteSettingsStore()
-const cardMinWidth = useLocalStorage('card-min-width', 60)
+const cardSizeIncrement = useLocalStorage('card-size-increment', 0)
 
-// Provide cardMinWidth to child components
-provide('cardMinWidth', cardMinWidth)
+// Provide cardSizeIncrement to child components
+provide('cardSizeIncrement', cardSizeIncrement)
 
 // Watch and set CSS variable on root element
-watch(cardMinWidth, (value) => {
-  document.documentElement.style.setProperty('--card-min-width', `${value}px`)
+watch(cardSizeIncrement, (value) => {
+  document.documentElement.style.setProperty('--card-size-increment', `${value}px`)
 }, { immediate: true })
 
 onMounted(async () => {
@@ -556,7 +556,7 @@ button {
   --button-2: #532e61;
   --button-2-highlight: #4d2b61;
 
-  --card-width: min(calc(2.5vw + 20px), var(--card-min-width, 60px));
+  --card-width: calc(min(calc(2.5vw + 20px), 60px) + var(--card-size-increment, 0px));
   --card-height: min(calc(3.545vw + 28.36px), 85.08px);
   --card-aspect: 0.705;
   --tarot-aspec: 0.571429;
