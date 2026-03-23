@@ -40,7 +40,7 @@ watch(() => skipTriggers.value, (value) => {
     <div class="options box card-size-increment">
       <label >卡牌增大尺寸</label>
       <input type="range" min="0" max="20" v-model="cardSizeIncrement" />
-      <span class="display-value">+{{ cardSizeIncrement }}px</span>
+      <span class="display-value">+{{ cardSizeIncrement }}</span>
     </div>
     <div>
       <button @click="closeSettings">{{$t('close')}}</button>
