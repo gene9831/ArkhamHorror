@@ -24,7 +24,8 @@
 
 <script lang="ts" setup>
 import { ModalsContainer } from 'vue-final-modal'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, provide } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 import { useSiteSettingsStore } from '@/stores/site_settings'
 import { useDbCardStore } from '@/stores/dbCards'
 import { checkImageExists } from '@/arkham/helpers'
@@ -32,6 +33,15 @@ import NavBar from '@/components/NavBar.vue'
 import 'floating-vue/dist/style.css'
 
 const settingsStore = useSiteSettingsStore()
+const cardMinWidth = useLocalStorage('card-min-width', 60)
+
+// Provide cardMinWidth to child components
+provide('cardMinWidth', cardMinWidth)
+
+// Watch and set CSS variable on root element
+watch(cardMinWidth, (value) => {
+  document.documentElement.style.setProperty('--card-min-width', `${value}px`)
+}, { immediate: true })
 
 onMounted(async () => {
   await settingsStore.init()
