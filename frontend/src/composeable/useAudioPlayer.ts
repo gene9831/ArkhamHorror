@@ -19,10 +19,10 @@ export interface AudioPlayer {
   setVolume: (v: number) => void
   toggleMute: () => void
   currentTrack: ComputedRef<{ url: string; title: string } | null>
-  isPlaying: readonly<boolean>
-  isMuted: readonly<boolean>
-  volume: readonly<number>
-  playlist: readonly<BgmTrack[]>
+  isPlaying: boolean
+  isMuted: boolean
+  volume: number
+  playlist: BgmTrack[]
 }
 
 export function useAudioPlayer(): AudioPlayer {
@@ -159,9 +159,9 @@ export function useAudioPlayer(): AudioPlayer {
     setVolume,
     toggleMute,
     currentTrack,
-    isPlaying: readonly(isPlaying),
-    isMuted: readonly(isMuted),
-    volume: readonly(volume),
-    playlist: readonly(playlist),
+    isPlaying: isPlaying.value,
+    isMuted: isMuted.value,
+    volume: volume.value,
+    playlist: playlist.value,
   }
 }
