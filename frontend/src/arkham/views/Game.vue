@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import { computed, onMounted, onUnmounted, provide, ref, shallowRef, useTemplateRef, watch } from 'vue'
+import { computed, inject, onMounted, onUnmounted, provide, ref, shallowRef, useTemplateRef, watch } from 'vue'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import confetti   from '@/effects/confetti'
@@ -684,6 +684,8 @@ provide('chooseAmounts', chooseAmounts)
 provide('switchInvestigator', switchInvestigator)
 provide('solo', solo)
 
+const audioPlayer = inject<ReturnType<typeof import('@/composeable/useAudioPlayer').useAudioPlayer>>('audioPlayer')!
+
 const onMove = (event: MouseEvent) => {
   mouseX = event.clientX;
   mouseY = event.clientY;
@@ -699,15 +701,20 @@ onMounted(() => {
   for (var key in localStorage){
     if (key.startsWith('selected-tab:')) localStorage.removeItem(key)
   }
+  audioPlayer.play()
 })
 
-onBeforeRouteLeave(() => close())
+onBeforeRouteLeave(() => {
+  audioPlayer.pause()
+  close()
+})
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeyPress)
   document.removeEventListener('mousemove', onMove)
   delete (window as any).sendDebug
   delete (window as any).undo
   delete (window as any).debugChoose
+  audioPlayer.pause()
   close()
 })
 

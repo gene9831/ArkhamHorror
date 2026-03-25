@@ -31,12 +31,17 @@ import { useDbCardStore } from '@/stores/dbCards'
 import { checkImageExists } from '@/arkham/helpers'
 import NavBar from '@/components/NavBar.vue'
 import 'floating-vue/dist/style.css'
+import { useAudioPlayer } from '@/composeable/useAudioPlayer'
 
 const settingsStore = useSiteSettingsStore()
 const cardSizeIncrement = useLocalStorage('card-size-increment', 0)
 
 // Provide cardSizeIncrement to child components
 provide('cardSizeIncrement', cardSizeIncrement)
+
+// Audio player for BGM (singleton at app level)
+const audioPlayer = useAudioPlayer()
+provide('audioPlayer', audioPlayer)
 
 // Watch and set CSS variable on root element
 watch(cardSizeIncrement, (value) => {
