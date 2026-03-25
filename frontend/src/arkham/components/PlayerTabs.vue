@@ -283,6 +283,9 @@ ul.tabs__header > li.tab--selected {
 }
 
 .tab--active-player {
+  border-color: var(--select);
+  animation: glow-effect 2s ease-in-out infinite;
+
   &:before {
     font-weight: normal;
     font-family: "Arkham";
@@ -345,6 +348,18 @@ ul.tabs__header > li.tab--selected {
   to {
     color: #ff00ff; /* Glowing color */
     text-shadow: 0 0 10px #ff00ff;
+  }
+}
+
+@keyframes glow-effect{
+  0%{
+    box-shadow:0 0 4px color-mix(in srgb, var(--select) 20%, transparent);
+  }
+  50%{
+    box-shadow:0 0 8px color-mix(in srgb, var(--select) 80%, transparent);
+  }
+    100%{
+    box-shadow:0 0 4px color-mix(in srgb, var(--select) 20%, transparent);
   }
 }
 
